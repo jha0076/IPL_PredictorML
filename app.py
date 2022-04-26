@@ -1,7 +1,11 @@
-import streamlit as st
-import pickle
-import pandas as pd
 
+from calendar import c
+import pickle
+
+import pandas as pd
+import streamlit as st
+st.set_page_config(layout="centered")
+st.image('IPL20201597936129432.jpg', caption="The World is Yours")
 teams = ['Sunrisers Hyderabad',
  'Mumbai Indians',
  'Royal Challengers Bangalore',
@@ -19,7 +23,7 @@ cities = ['Hyderabad', 'Bangalore', 'Mumbai', 'Indore', 'Kolkata', 'Delhi',
        'Sharjah', 'Mohali', 'Bengaluru']
 
 pipe = pickle.load(open('pipe.pkl','rb'))
-st.title('Satyam Machine Learning IPL Win Predictor')
+st.header('Satyam Machine Learning IPL Win Predictor')
 
 col1, col2 = st.columns(2)
 with col1:
@@ -36,11 +40,17 @@ col3,col4,col5 = st.columns(3)
 with col3:
     score = st.number_input('Score')
 with col4:
-    overs = st.number_input('Overs completed')
+    overs = st.slider('Overs completed', 0, 20)
 with col5:
-    wickets = st.number_input('Wickets out')
-
+    wickets = st.slider('Wickets out', 0, 10)
+st.sidebar.radio('Your take', [batting_team, bowling_team ])
 if st.button('Predict Probability'):
+    import time
+
+    my_bar = st.progress(0)
+    for percent_complete in range(100):
+     time.sleep(0.1)
+     my_bar.progress(percent_complete + 1)
     runs_left = target - score
     balls_left = 120 - (overs*6)
     wickets = 10 - wickets
